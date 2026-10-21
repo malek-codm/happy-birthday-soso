@@ -1,0 +1,172 @@
+<!DOCTYPE html> 
+<html lang="ar"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>باقة زهور - سُميه</title> 
+    <style> 
+        :root { 
+            --bg-color: #000000; 
+            --poppy-red: #d32f2f; 
+            --poppy-dark: #8b0000; 
+            --poppy-center: #000000; 
+            --stem-green: #1e3f2d; 
+            --leaf-green: #2d5a27; 
+            --text-color: #f5f5f5; 
+        } 
+ 
+        body { 
+            margin: 0; 
+            background-color: var(--bg-color); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            overflow: hidden; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        } 
+ 
+        .canvas { 
+            width: 100%; 
+            height: 100%; 
+            max-width: 700px; 
+            position: relative; 
+        } 
+ 
+        svg { 
+            width: 100%; 
+            height: 100%; 
+            filter: drop-shadow(0 0 15px rgba(211, 47, 47, 0.2)); 
+        } 
+ 
+        /* --- التحكم في الباقة كاملة (الحجم والارتفاع) --- */
+        .bouquet-group { 
+            transform: scale(0.85) translateY(-60px); 
+            transform-origin: bottom center; 
+            animation: gentleSway 5s ease-in-out infinite alternate; 
+        } 
+ 
+        .stem-path { 
+            fill: none; 
+            stroke: var(--stem-green); 
+            stroke-width: 3; 
+            stroke-linecap: round; 
+            stroke-dasharray: 1000; 
+            stroke-dashoffset: 1000; 
+            animation: drawStem 4s ease-out forwards; 
+        } 
+ 
+        @keyframes drawStem { to { stroke-dashoffset: 0; } } 
+ 
+        .leaf { 
+            fill: var(--leaf-green); 
+            opacity: 0; 
+            transform: scale(0); 
+            animation: growLeaf 1.5s ease-out forwards; 
+        } 
+ 
+        @keyframes growLeaf { to { opacity: 1; transform: scale(1); } } 
+ 
+        .petal { 
+            fill: url(#poppyGradient); 
+            opacity: 0; 
+            transform-origin: center; 
+            animation: openPoppy 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; 
+            stroke: rgba(0,0,0,0.1); 
+            stroke-width: 0.5; 
+        } 
+ 
+        @keyframes openPoppy { 
+            0% { opacity: 0; transform: scale(0) rotate(var(--rot)) translateY(10px); } 
+            100% { opacity: 1; transform: scale(1) rotate(var(--rot)) translateY(0); } 
+        } 
+ 
+        .flower-center { fill: var(--poppy-center); opacity: 0; animation: fadeIn 1s forwards; } 
+ 
+        /* تنسيق الأسطر الثلاثة */ 
+        .for-you-text { 
+            font-size: 32px; 
+            font-weight: bold; 
+            fill: var(--text-color); 
+            opacity: 0; 
+            text-anchor: middle; 
+            filter: drop-shadow(0 0 8px var(--poppy-red)); 
+            animation: fadeInText 2s ease-in forwards 5s; 
+        } 
+
+        /* تنسيق خاص بالقلب والرقّم ليظهر بشكل أرتب */
+        .heart-line {
+            font-size: 28px;
+            fill: #ff3366; /* لون مميز للرقم والقلب */
+        }
+ 
+        @keyframes fadeInText { 
+            to { opacity: 0.9; } 
+        } 
+ 
+        /- */
+        @keyframes gentleSway { 
+            from { transform: scale(0.85) translateY(-60px) rotate(-1.5deg); } 
+            to { transform: scale(0.85) translateY(-60px) rotate(1.5deg); } 
+        } 
+ 
+        @keyframes fadeIn { to { opacity: 1; } } 
+    </style> 
+</head> 
+<body> 
+ 
+    <div class="canvas" onclick="location.reload()"> 
+        <svg viewBox="0 0 500 750"> 
+            <defs> 
+                <radialGradient id="poppyGradient" cx="50%" cy="50%" r="50%"> 
+                    <stop offset="0%" stop-color="var(--poppy-red)" /> 
+                    <stop offset="100%" stop-color="var(--poppy-dark)" /> 
+                </radialGradient> 
+            </defs> 
+ 
+            <g class="bouquet-group"> 
+                <path class="stem-path" d="M250,700 C250,600 240,400 250,150" /> 
+                <path class="stem-path" style="animation-delay: 1s;" d="M245,550 C180,500 120,420 100,350" /> 
+                <path class="stem-path" style="animation-delay: 1.5s;" d="M245,500 C180,450 140,400 120,300" /> 
+                <path class="stem-path" style="animation-delay: 2s;" d="M255,450 C320,430 380,400 400,330" /> 
+                <path class="stem-path" style="animation-delay: 2.5s;" d="M255,520 C350,500 420,430 450,300" /> 
+                <path class="stem-path" style="animation-delay: 2.8s;" d="M240,250 C180,240 140,210 120,150" /> 
+                <path class="stem-path" style="animation-delay: 3s;" d="M260,280 C320,270 360,240 380,180" /> 
+ 
+                <!-- الأسطر الثلاثة مفصولة تماماً لضمان عدم التداخل وبأبعاد دقيقة -->
+                <text x="250" y="650" class="for-you-text">سميه</text> 
+                <text x="250" y="700" class="for-you-text">   كل عام وانتِ بخير ياورده اكتوبر</text> 
+                <text x="250" y="745" class="for-you-text heart-line">كل ❤️❤️so0mx❤️❤️</text> 
+ 
+                <path class="leaf" style="transform-origin: 250px 600px; animation-delay: 1s;" d="M250,600 Q190,620 150,550 Q220,580 250,600" /> 
+                <path class="leaf" style="transform-origin: 250px 580px; animation-delay: 1.2s;" d="M250,580 Q310,600 350,530 Q280,560 250,580" /> 
+                <path class="leaf" style="transform-origin: 120px 300px; animation-delay: 1.8s;" d="M120,300 Q80,280 100,220 Q110,270 120,300" /> 
+                <path class="leaf" style="transform-origin: 400px 330px; animation-delay: 2s;" d="M400,330 Q440,310 420,250 Q390,300 400,330" /> 
+ 
+                <g transform="translate(250, 200)"> 
+                    <path class="petal" style="--rot: 0deg; animation-delay: 3.5s; transform-origin: 0 0;" d="M0,0 Q-70,-60 0,-140 Q70,-60 0,0" /> 
+                    <path class="petal" style="--rot: 90deg; animation-delay: 3.7s; transform-origin: 0 0;" d="M0,0 Q-70,-60 0,-140 Q70,-60 0,0" /> 
+                    <path class="petal" style="--rot: 180deg; animation-delay: 3.9s; transform-origin: 0 0;" d="M0,0 Q-70,-60 0,-140 Q70,-60 0,0" /> 
+                    <path class="petal" style="--rot: 270deg; animation-delay: 4.1s; transform-origin: 0 0;" d="M0,0 Q-70,-60 0,-140 Q70,-60 0,0" /> 
+                    <circle class="flower-center" cx="0" cy="0" r="18" style="animation-delay: 4.3s;" /> 
+                </g> 
+                <g transform="translate(100, 350) scale(0.8) rotate(-20)"> 
+                    <path class="petal" style="--rot: 0deg; animation-delay: 4s; transform-origin: 0 0;" d="M0,0 Q-60,-50 0,-120 Q60,-50 0,0" /> 
+                    <path class="petal" style="--rot: 90deg; animation-delay: 4.2s; transform-origin: 0 0;" d="M0,0 Q-60,-50 0,-120 Q60,-50 0,0" /> 
+                    <path class="petal" style="--rot: 180deg; animation-delay: 4.4s; transform-origin: 0 0;" d="M0,0 Q-60,-50 0,-120 Q60,-50 0,0" /> 
+                    <path class="petal" style="--rot: 270deg; animation-delay: 4.6s; transform-origin: 0 0;" d="M0,0 Q-60,-50 0,-120 Q60,-50 0,0" /> 
+                    <circle class="flower-center" cx="0" cy="0" r="14" style="animation-delay: 4.8s;" /> 
+                </g> 
+                <g transform="translate(400, 330) scale(0.7) rotate(30)"> 
+                    <path class="petal" style="--rot: 0deg; animation-delay: 4.5s; transform-origin: 0 0;" d="M0,0 Q-60,-50 0,-120 Q60,-50 0,0" /> 
+                    <path class="petal" style="--rot: 90deg; animation-delay: 4.7s; transform-origin: 0 0;" d="M0,0 Q-60,-50 0,-120 Q60,-50 0,0" /> 
+                    <path class="petal" style="--rot: 180deg; animation-delay: 4.9s; transform-origin: 0 0;" d="M0,0 Q-60,-50 0,-120 Q60,-50 0,0" /> 
+                    <path class="petal" style="--rot: 270deg; animation-delay: 5.1s; transform-origin: 0 0;" d="M0,0 Q-60,-50 0,-120 Q60,-50 0,0" /> 
+                    <circle class="flower-center" cx="0" cy="0" r="12" style="animation-delay: 5.3s;" /> 
+                </g> 
+            </g> 
+        </svg> 
+    </div> 
+ 
+</body> 
+</html>
